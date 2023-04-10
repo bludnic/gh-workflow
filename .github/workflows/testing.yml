@@ -3,6 +3,7 @@ name: Build and Deploy Testing
 on:
   push:
     branches:
+      - *
       - !main
 
 env:
