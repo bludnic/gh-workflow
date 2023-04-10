@@ -1,6 +1,9 @@
 name: Build and Deploy Testing
 
-on: [push]
+on:
+  push:
+    branches:
+      - !master
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
