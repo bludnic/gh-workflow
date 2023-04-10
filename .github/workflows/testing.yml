@@ -7,6 +7,7 @@ on:
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+  DEPLOY_TO_DOMAIN: msg-adamant-dev.surge.sh
 
 jobs:
   setup-build-publish-deploy:
