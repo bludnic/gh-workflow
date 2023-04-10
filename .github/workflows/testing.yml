@@ -7,8 +7,7 @@ on:
       - '!main'
 
 env:
-  SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-  DEPLOY_TO_DOMAIN: msg-adamant-dev.surge.sh
+  DEPLOY_TO_DOMAIN: adamant-dev-testing.surge.sh
 
 jobs:
   setup-build-publish-deploy:
@@ -22,17 +21,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build PWA
-        run: npm run build
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v3
+      - name: Surge
+        uses: afc163/surge-preview@v1
+        id: preview_step
         with:
-          name: dist-pwa
-          path: |
-            dist
-      - name: Deploy to adamant-dev.surge.sh
-        run: |
-          npm install --global surge
-          surge ./dist adamant-dev.surge.sh --token $SURGE_TOKEN
+          surge_token: ${{ secrets.SURGE_TOKEN }}
+          dist: dist
+          build: |
+            npm install
+            npm run build
+      - name: Get the `preview_url`
+        run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"
