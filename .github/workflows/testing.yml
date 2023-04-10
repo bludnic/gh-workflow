@@ -3,8 +3,8 @@ name: Build and Deploy Testing
 on:
   push:
     branches:
-      - *
-      - !main
+      - '*'
+      - '!main'
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
