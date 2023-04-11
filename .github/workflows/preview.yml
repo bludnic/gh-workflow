@@ -13,8 +13,8 @@ env:
   PREVIEW_DOMAIN: https://msg-adamant-pr-${{ github.event.number }}.surge.sh
 
 jobs:
-  setup-build-and-preview-pr:
-    name: Build and Preview PR job
+  build-and-deploy-to-surge:
+    name: Build and Deploy to surge
     runs-on: ubuntu-latest
     environment: testing
     permissions:
