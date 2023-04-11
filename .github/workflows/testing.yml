@@ -1,19 +1,18 @@
 name: Build and Deploy Testing
 
-on:
-  pull_request:
-    branches-ignore:
-      - master
-      - dev
+on: pull_request
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+  PREVIEW_DOMAIN: https://${{ github.repository_owner }}-pr-${{ github.event.number }}.surge.sh
 
 jobs:
   setup-build-publish-deploy:
-    name: Build Testing branch
+    name: Build Testing Branch
     runs-on: ubuntu-latest
     environment: testing
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v3
@@ -37,11 +36,11 @@ jobs:
       - name: Deploy to surge
         run: |
           npm install --global surge
-          surge ./dist --token ${{ secrets.SURGE_TOKEN }}
+          surge ./dist ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          number: ${{ steps.finder.outputs.pr }}
           message: |
-            Test ${{ github.sha }} ended successfully.
-            This message is from a push.
+            Hello world2 ! :wave: ${{ env.PREVIEW_DOMAIN }}
+          comment_tag: deploy-message
