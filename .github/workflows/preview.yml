@@ -42,5 +42,19 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            Deployed to ${{ env.PREVIEW_DOMAIN }}
+            Deployed to ${{ env.PREVIEW_DOMAIN }} 🚀
           comment_tag: deploy-message
+
+  tear-down-preview-down:
+    - name: Tear down ${{ env.PREVIEW_DOMAIN }} preview domain 🥲
+      if: github.event.pull_request.closed == true
+      run: |
+        npm install --global surge
+        surge teardown ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+
+    - name: Comment PR 💬
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          Successfully tore down ${{ env.PREVIEW_DOMAIN }} 🥲
+        comment_tag: teardown-message
