@@ -5,6 +5,7 @@ on:
     branches:
       - dev
 
+
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
   DEPLOY_TO_DOMAIN: adamant-dev.surge.sh
