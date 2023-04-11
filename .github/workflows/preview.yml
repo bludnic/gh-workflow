@@ -1,29 +1,23 @@
 name: 🔂 Surge PR Preview
 
-on: [pull_request]
+on:
+  pull_request:
+    # when using teardown: 'true', add default event types + closed event type
+    types: [opened, synchronize, reopened, closed]
+  push:
 
 jobs:
   preview:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write # allow surge-preview to create/update PR comments
     steps:
-      - name: Checkout repository 🛎️
-        uses: actions/checkout@v3
-
-      - name: Setup Node version 🍀
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Surge Preview 🚀
-        uses: afc163/surge-preview@v1
-        id: preview_step
+      - uses: actions/checkout@v2
+      - name: Get branch name (pull request)
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF})" >> $GITHUB_ENV
+      - uses: lxfu1/surge-preview@v1
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
-          dist: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_branch: ${{ env.BRANCH_NAME }}
+          teardown: 'true'
           build: |
             npm install
-            npm run build
-      - name: Get the preview_url
-        run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"
