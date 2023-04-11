@@ -11,7 +11,7 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    name: Build Testing branch
+    name: Build Testing Branch
     runs-on: ubuntu-latest
     environment: testing
     steps:
