@@ -48,12 +48,12 @@ jobs:
   tear-down-preview-domain:
     name: Tear down preview domain job
     runs-on: ubuntu-latest
+    if: github.event.pull_request.closed == true
     environment: testing
     permissions:
       pull-requests: write
     steps:
       - name: Tear down ${{ env.PREVIEW_DOMAIN }} preview domain 🥲
-        if: github.event.pull_request.closed == true
         run: |
           npm install --global surge
           surge teardown ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
