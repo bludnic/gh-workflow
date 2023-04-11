@@ -1,4 +1,4 @@
-name: Build and Deploy Testing
+name: Build and Preview PR workflow
 
 on: pull_request
 
@@ -7,8 +7,8 @@ env:
   PREVIEW_DOMAIN: https://${{ github.repository_owner }}-pr-${{ github.event.number }}.surge.sh
 
 jobs:
-  setup-build-publish-deploy:
-    name: Build and Preview PR
+  setup-build-and-preview-pr:
+    name: Build and Preview PR job
     runs-on: ubuntu-latest
     environment: testing
     permissions:
