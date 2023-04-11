@@ -39,9 +39,13 @@ jobs:
           npm install --global surge
           surge ./dist --token ${{ secrets.SURGE_TOKEN }}
 
-      - name: Comment a pull_request
-        uses: mb2dev/github-action-comment-pull-request@1.0.0
+      - name: Find PR
+        uses: jwalton/gh-find-current-pr@v1
+        id: finder
+
+      - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          message: "Hello, It's my first comment with Github action !"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reactions: "+1 | -1 | laugh | hooray | confused | heart | rocket | eyes"
+          number: ${{ steps.finder.outputs.pr }}
+          message: |
+            Test ${{ github.sha }} ended successfully.
+            This message is from a push.
