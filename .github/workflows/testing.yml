@@ -2,10 +2,9 @@ name: Build and Deploy Testing
 
 on:
   push:
-    branches:
-      - '*'
-      - '!main'
-      - '!dev'
+    branches-ignore:
+      - master
+      - dev
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
