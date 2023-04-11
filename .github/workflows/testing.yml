@@ -4,6 +4,7 @@ on: pull_request
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+  PREVIEW_DOMAIN: https://${{ github.repository_owner }}-${{ github.ref_name }}-pr-${{ github.event.number }}.surge.sh
 
 jobs:
   setup-build-publish-deploy:
@@ -41,4 +42,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            Hello world ! :wave:
+            Hello world ! :wave: $PREVIEW_DOMAIN
