@@ -28,3 +28,4 @@ jobs:
           message: |
             Successfully tore down ${{ env.PREVIEW_DOMAIN }} 🥲
           comment_tag: teardown-message
+
