@@ -8,7 +8,7 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    name: Build Testing Branch
+    name: Build and Preview PR
     runs-on: ubuntu-latest
     environment: testing
     permissions:
@@ -33,19 +33,12 @@ jobs:
         with:
           path: dist
 
-      - name: Deploy to surge
+      - name: Deploy to surge 🚀
         run: |
           npm install --global surge
           surge ./dist ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
-      - uses: nelonoel/branch-name@v1.0.1
-      - run: echo ${BRANCH_NAME}
-
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-
-      - name: Comment PR
+      - name: Comment PR 💬
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
