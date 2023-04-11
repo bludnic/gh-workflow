@@ -35,9 +35,8 @@ jobs:
           npm install --global surge
           surge ./dist --token ${{ secrets.SURGE_TOKEN }}
 
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          number: ${{ steps.finder.outputs.pr }}
           message: |
-            Test ${{ github.sha }} ended successfully.
-            This message is from a push.
+            Hello world ! :wave:
