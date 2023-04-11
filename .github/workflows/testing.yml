@@ -1,7 +1,7 @@
 name: Build and Deploy Testing
 
 on:
-  push:
+  pull_request:
     branches-ignore:
       - master
       - dev
@@ -38,10 +38,6 @@ jobs:
         run: |
           npm install --global surge
           surge ./dist --token ${{ secrets.SURGE_TOKEN }}
-
-      - name: Find PR
-        uses: jwalton/gh-find-current-pr@v1
-        id: finder
 
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
