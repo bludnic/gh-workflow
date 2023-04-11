@@ -1,4 +1,4 @@
-name: Build and Preview PR workflow
+name: Preview Workflow
 
 on:
   pull_request:
@@ -50,23 +50,3 @@ jobs:
           message: |
             Deployed to ${{ env.PREVIEW_DOMAIN }} 🚀
           comment_tag: deploy-message
-
-  tear-down-preview-domain:
-    name: Tear down preview domain job
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.closed == true
-    environment: testing
-    permissions:
-      pull-requests: write
-    steps:
-      - name: Tear down ${{ env.PREVIEW_DOMAIN }} preview domain 🥲
-        run: |
-          npm install --global surge
-          surge teardown ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
-
-      - name: Comment PR 💬
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            Successfully tore down ${{ env.PREVIEW_DOMAIN }} 🥲
-          comment_tag: teardown-message
