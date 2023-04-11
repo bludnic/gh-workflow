@@ -36,7 +36,7 @@ jobs:
       - name: Deploy to surge
         run: |
           npm install --global surge
-          surge ./dist --token ${{ secrets.SURGE_TOKEN }}
+          surge ./dist ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
