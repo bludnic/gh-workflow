@@ -3,18 +3,17 @@ name: Build and Deploy Testing
 on:
   push:
     branches:
-      - '*'
-      - '!master'
-      - '!dev'
+      - dev
 
 env:
   SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+  DEPLOY_TO_DOMAIN: adamant-dev.surge.sh
 
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
-    environment: testing
+    environment: production
     steps:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v3
@@ -35,7 +34,7 @@ jobs:
         with:
           path: dist
 
-      - name: Deploy to surge
+      - name: Deploy to surge 🚀
         run: |
           npm install --global surge
-          surge ./dist --token ${{ secrets.SURGE_TOKEN }}
+          surge ./dist $DEPLOY_TO_DOMAIN --token $SURGE_TOKEN
