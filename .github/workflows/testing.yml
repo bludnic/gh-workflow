@@ -43,4 +43,4 @@ jobs:
         with:
           message: |
             Hello world ! :wave: ${{ env.PREVIEW_DOMAIN }}
-          create_if_not_exists: false
+          comment_tag: deploy-message
