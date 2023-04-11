@@ -38,13 +38,22 @@ jobs:
           npm install --global surge
           surge ./dist ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
-      - name: Get branch name
-        run: |
-          echo ${GITHUB_REF#refs/heads/} | tr "[:upper:]" "[:lower:]" | sed -e 's/-//g'
+      - uses: mad9000/actions-find-and-replace-string@2
+        id: findandreplace
+        with:
+          source: ${{ github.ref }}
+          find: '-'
+          replace: ''
+      - uses: ASzc/change-string-case-action@v2
+        id: lowercase
+        with:
+          string: ${{ steps.findandreplace.outputs.value }}
+      - name: Get the above output
+        run: echo "The replaced value is ${{ steps.lowercase.outputs.lowercase }}"
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            Hello world2 ! :wave: ${{ env.PREVIEW_DOMAIN }}
+            Deployed to ${{ env.PREVIEW_DOMAIN }}
           comment_tag: deploy-message
