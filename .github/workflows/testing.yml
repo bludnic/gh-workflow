@@ -38,6 +38,10 @@ jobs:
           npm install --global surge
           surge ./dist ${{ env.PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
+      - name: Get branch name
+        run: |
+          echo ${GITHUB_REF#refs/heads/} | tr "[:upper:]" "[:lower:]" | sed -e 's/-//g'
+
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
